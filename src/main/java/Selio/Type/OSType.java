@@ -1,5 +1,4 @@
-package QinNay;
-
+package Selio.Type;
 
 public enum OSType {
     Linux,

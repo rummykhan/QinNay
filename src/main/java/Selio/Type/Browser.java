@@ -1,7 +1,6 @@
-package QinNay;
+package Selio.Type;
 
 public enum Browser {
     Chrome,
     Firefox,
-    Safari,
 }

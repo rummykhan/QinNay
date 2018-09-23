@@ -1,4 +1,6 @@
-package QinNay;
+package Selio;
+
+import Selio.Type.Browser;
 
 public class DriverManager {
 
@@ -51,7 +53,7 @@ public class DriverManager {
         return driverPath;
     }
 
-    private void registerDriverPath(String path, Browser browser) throws Exception {
+    private void registerDriverPath(String path, Browser browser) {
 
         // firefox = webdriver.gecko.driver
         // chrome = webdriver.chrome.driver
@@ -67,11 +69,6 @@ public class DriverManager {
                 break;
         }
 
-        if (key == null) {
-            throw new Exception("Invalid/Unsupported key");
-        }
-
-        System.out.println(path);
         System.setProperty(key, path);
     }
 

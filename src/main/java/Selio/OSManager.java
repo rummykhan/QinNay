@@ -1,4 +1,6 @@
-package QinNay;
+package Selio;
+
+import Selio.Type.OSType;
 
 public class OSManager {
 
