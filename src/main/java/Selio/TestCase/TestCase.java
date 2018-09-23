@@ -2,30 +2,32 @@ package Selio.TestCase;
 
 import Selio.Type.HttpMethod;
 import org.openqa.selenium.WebDriver;
+
 import java.util.Map;
 
 public abstract class TestCase implements ITestCase {
 
-    protected WebDriver driver;
+    public abstract WebDriver getWebDriver();
 
-    protected String url;
+    public abstract String getUrl();
 
-    protected HttpMethod httpMethod;
-
-    public WebDriver getWebDriver() {
-        return driver;
+    public HttpMethod getHttpMethod() {
+        return HttpMethod.GET;
     }
 
-    public String getUrl() {
-        return url;
+    public boolean visit() throws Exception {
+
+        if (getHttpMethod() == null) {
+            throw new Exception("Invalid http method");
+        }
+
+        return visitByGet(getUrl());
     }
 
-    public HttpMethod getHttpMethod(){
-        return httpMethod;
-    }
+    private boolean visitByGet(String url) {
+        getWebDriver().get(url);
 
-    public void visit(){
-
+        return true;
     }
 
 }

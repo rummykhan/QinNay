@@ -1,5 +1,5 @@
 package Selio.TestCase;
 
 public interface ITestCase {
-    public void run();
+    public void run() throws Exception;
 }
