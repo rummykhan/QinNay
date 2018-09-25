@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 public abstract class FormTestCase extends TestCase {
 
     protected Map<String, FormInput> inputs;
-    protected Map<String, String> successHeaders;
-    protected String successText = null;
 
     public abstract String getSubmitButtonSelector();
 
@@ -37,29 +35,25 @@ public abstract class FormTestCase extends TestCase {
         return new HashMap<String, String>();
     }
 
-    public String getSuccessText() {
-        return successText;
-    }
-
     @Override
-    public void run() throws Exception {
+    public void run(boolean isVerbose) throws Exception {
         if (!visit()) {
             throw new Exception("Please check for your internet connection and website url");
         }
 
-        findAndEnterInputValues();
-        submitForm();
-        checkForSuccess();
+        findAndEnterInputValues(isVerbose);
+        submitForm(isVerbose);
+        checkForSuccess(isVerbose);
     }
 
-    protected void findAndEnterInputValues() {
+    protected void findAndEnterInputValues(boolean isVerbose) {
         for (Map.Entry<String, FormInput> input : inputs.entrySet()) {
             enterInputValue(input.getKey(), input.getValue());
         }
     }
 
-    protected void submitForm() {
-        getWebDriver().findElement(By.xpath(getSubmitButtonSelector())).click();
+    protected void submitForm(boolean isVerbose) {
+        getWebDriverInstance().findElement(By.xpath(getSubmitButtonSelector())).click();
     }
 
     private void enterInputValue(String selector, FormInput formInput) {
@@ -81,40 +75,23 @@ public abstract class FormTestCase extends TestCase {
     }
 
     private void enterTextBoxValue(String selector, FormInput formInput) {
-        getWebDriver().findElement(By.xpath(selector)).sendKeys(formInput.getValue());
+        getWebDriverInstance().findElement(By.xpath(selector)).sendKeys(formInput.getValue());
     }
 
     private void enterCheckBoxValue(String selector, FormInput formInput) {
-        getWebDriver().findElement(By.xpath(selector)).click();
+        getWebDriverInstance().findElement(By.xpath(selector)).click();
     }
 
     private void enterRadioBoxValue(String selector, FormInput formInput) {
-        getWebDriver().findElement(By.xpath(selector)).click();
+        getWebDriverInstance().findElement(By.xpath(selector)).click();
     }
 
     private void enterSelectBoxValue(String selector, FormInput formInput) {
-        WebElement elem = getWebDriver().findElement(By.xpath(selector));
+        WebElement elem = getWebDriverInstance().findElement(By.xpath(selector));
 
         Select select = new Select(elem);
 
         select.selectByVisibleText(formInput.getValue());
     }
 
-    protected void checkForSuccess() {
-        getWebDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-        if (successText != null) {
-            checkForSuccessText();
-        }
-    }
-
-    protected void checkForSuccessText() {
-        if (!getWebDriver().getPageSource().contains(successText)) {
-
-            //TODO: Log failed results to file
-            return;
-        }
-
-        //TODO: Log success results to text file
-    }
 }
