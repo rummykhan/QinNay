@@ -12,8 +12,6 @@ public class SeleniumArch {
         Selio.getInstance().setUp();
         TestSuite suite = new TestSuite();
         suite.run();
-
-
     }
 
 

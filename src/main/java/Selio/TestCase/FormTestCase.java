@@ -18,6 +18,10 @@ public abstract class FormTestCase extends TestCase {
 
     public Map<String, FormInput> getInputs() {
 
+        if (inputs == null) {
+            inputs = new HashMap<String, FormInput>();
+        }
+
         if (inputs.size() == 0) {
             fillInputs();
         }
@@ -47,7 +51,8 @@ public abstract class FormTestCase extends TestCase {
     }
 
     protected void findAndEnterInputValues(boolean isVerbose) {
-        for (Map.Entry<String, FormInput> input : inputs.entrySet()) {
+
+        for (Map.Entry<String, FormInput> input : getInputs().entrySet()) {
             enterInputValue(input.getKey(), input.getValue());
         }
     }

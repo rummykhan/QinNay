@@ -2,7 +2,9 @@ package Selio.TestCase;
 
 import Selio.Type.HttpMethod;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -47,8 +49,11 @@ public abstract class TestCase implements ITestCase {
     protected abstract String getSuccessText();
 
     protected void checkForSuccess(boolean isVerbose) {
-        System.out.println("Wait for 10 seconds");
-        getWebDriverInstance().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        System.out.println("Wait for 20 seconds");
+        //getWebDriverInstance().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        new WebDriverWait(getWebDriverInstance(), 15).until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
 
         if (getSuccessText() != null) {
             System.out.println("Testing for success text");
@@ -61,7 +66,10 @@ public abstract class TestCase implements ITestCase {
 
     protected void checkForSuccessText(boolean isVerbose) {
 
-        if (!getWebDriverInstance().getPageSource().contains(this.getSuccessText())) {
+        System.out.println("source:" + getWebDriverInstance().getPageSource());
+        System.out.println("Looking for " + getSuccessText());
+
+        if (!getWebDriverInstance().getPageSource().contains(getSuccessText())) {
 
             System.out.println("Couldn't found what you're looking for.");
             //TODO: Log failed results to file
