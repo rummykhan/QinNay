@@ -19,3 +19,6 @@ Yet another wrapper around selinium automation framework.
 - [ ] Provision of interacting with alerts
 - [ ] Provision of interacting with oAuth
 - [ ] Provision of interacting with Basic Http Auth
+
+### Contact
+[rehan_manzoor@outlook.com](mailto:rehan_manzoor@outlook.com)
